@@ -51,6 +51,12 @@ class Robot : LoggedRobot() {
 
     override fun robotInit() {
         RobotController.setBrownoutVoltage(6.3)
+
+        robotContainer.drive.defaultCommand = robotContainer.drive.setSpeeds(
+            robotContainer.driveController.leftX,
+            robotContainer.driveController.leftY,
+            robotContainer.driveController.rightX
+        )
     }
 
     override fun robotPeriodic() {

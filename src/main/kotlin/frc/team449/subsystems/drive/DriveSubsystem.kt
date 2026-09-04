@@ -23,31 +23,31 @@ open class DriveSubsystem(
     private val backleftinputs = ModuleIOInputsAutoLogged()
     private val backrightinputs = ModuleIOInputsAutoLogged()
 
-    private val flturnController = PIDController(0.5, 0.0, 0.05)
-    private val fldriveController = PIDController(0.5, 0.0, 0.05)
+    private val flturnController = PIDController(0.8, 0.0, 0.06)
+    private val fldriveController = PIDController(0.8, 0.0, 0.06)
 
-    private val frturnController = PIDController(0.5, 0.0, 0.05)
-    private val frdriveController = PIDController(0.5, 0.0, 0.05)
+    private val frturnController = PIDController(0.8, 0.0, 0.06)
+    private val frdriveController = PIDController(0.8, 0.0, 0.06)
 
-    private val blturnController = PIDController(0.5, 0.0, 0.05)
-    private val bldriveController = PIDController(0.5, 0.0, 0.05)
+    private val blturnController = PIDController(0.8, 0.0, 0.06)
+    private val bldriveController = PIDController(0.8, 0.0, 0.06)
 
-    private val brturnController = PIDController(0.5, 0.0, 0.05)
-    private val brdriveController = PIDController(0.5, 0.0, 0.05)
+    private val brturnController = PIDController(0.8, 0.0, 0.06)
+    private val brdriveController = PIDController(0.8, 0.0, 0.06)
 
-    private val frontleftlocation = Translation2d(Constants.ROBOT_WIDTH_INCHES/2, Constants.ROBOT_LENGTH_INCHES/2)
-    private val frontrightlocation = Translation2d(-Constants.ROBOT_WIDTH_INCHES/2, Constants.ROBOT_LENGTH_INCHES/2)
-    private val backleftlocation = Translation2d(Constants.ROBOT_WIDTH_INCHES/2, -Constants.ROBOT_LENGTH_INCHES/2)
-    private val backrightlocation = Translation2d(-Constants.ROBOT_WIDTH_INCHES/2, -Constants.ROBOT_LENGTH_INCHES/2)
+    private val frontleftlocation = Translation2d(Constants.ROBOT_WIDTH_INCHES / 2, Constants.ROBOT_LENGTH_INCHES / 2)
+    private val frontrightlocation = Translation2d(-Constants.ROBOT_WIDTH_INCHES / 2, Constants.ROBOT_LENGTH_INCHES / 2)
+    private val backleftlocation = Translation2d(Constants.ROBOT_WIDTH_INCHES / 2, -Constants.ROBOT_LENGTH_INCHES / 2)
+    private val backrightlocation = Translation2d(-Constants.ROBOT_WIDTH_INCHES / 2, -Constants.ROBOT_LENGTH_INCHES / 2)
 
     private val kinematics =
         SwerveDriveKinematics(frontleftlocation, frontrightlocation, backleftlocation, backrightlocation)
 
     init {
-        flturnController.enableContinuousInput(0.0, 2*Math.PI)
-        frturnController.enableContinuousInput(0.0, 2*Math.PI)
-        blturnController.enableContinuousInput(0.0, 2*Math.PI)
-        brturnController.enableContinuousInput(0.0, 2*Math.PI)
+        flturnController.enableContinuousInput(0.0, 2 * Math.PI)
+        frturnController.enableContinuousInput(0.0, 2 * Math.PI)
+        blturnController.enableContinuousInput(0.0, 2 * Math.PI)
+        brturnController.enableContinuousInput(0.0, 2 * Math.PI)
     }
 
     override fun periodic() {
@@ -67,9 +67,9 @@ open class DriveSubsystem(
         backrightIO.setVoltageDrive(brdriveController.calculate(backrightinputs.drivingVelocity))
 
         Logger.processInputs("Front left", frontleftinputs)
-        Logger.processInputs("Front left", frontrightinputs)
-        Logger.processInputs("Front left", backleftinputs)
-        Logger.processInputs("Front left", backrightinputs)
+        Logger.processInputs("Front right", frontrightinputs)
+        Logger.processInputs("Back left", backleftinputs)
+        Logger.processInputs("Back right", backrightinputs)
     }
 
     fun setSpeeds(forward: Double, sideways: Double, rotation: Double): Command =
@@ -78,34 +78,37 @@ open class DriveSubsystem(
             val moduleStates = kinematics.toSwerveModuleStates(speeds)
 
             val optimizedfrontleft = SwerveModuleState.optimize(moduleStates[0], Rotation2d(frontleftinputs.turningAngle))
-            val frontleftradspersec = optimizedfrontleft.speedMetersPerSecond * 2*Math.PI / Constants.DriveConstants.WHEEL_DIAMETER_METERS
+            val frontleftradspersec = optimizedfrontleft.speedMetersPerSecond * 2 * Math.PI / Constants.DriveConstants.WHEEL_DIAMETER_METERS
             // ^ convert to radians per second
             val frontleftangle = optimizedfrontleft.angle.radians
 
             val optimizedfrontright = SwerveModuleState.optimize(moduleStates[1], Rotation2d(frontrightinputs.turningAngle))
-            val frontrightradspersec = optimizedfrontright.speedMetersPerSecond * 2*Math.PI / Constants.DriveConstants.WHEEL_DIAMETER_METERS
+            val frontrightradspersec = optimizedfrontright.speedMetersPerSecond * 2 * Math.PI / Constants.DriveConstants.WHEEL_DIAMETER_METERS
             // ^ convert to radians per second
             val frontrightangle = optimizedfrontright.angle.radians
 
             val optimizedbackleft = SwerveModuleState.optimize(moduleStates[2], Rotation2d(backleftinputs.turningAngle))
-            val backleftradspersec = optimizedbackleft.speedMetersPerSecond * 2*Math.PI / Constants.DriveConstants.WHEEL_DIAMETER_METERS
+            val backleftradspersec = optimizedbackleft.speedMetersPerSecond * 2 * Math.PI / Constants.DriveConstants.WHEEL_DIAMETER_METERS
             // ^ convert to radians per second
             val backleftangle = optimizedbackleft.angle.radians
 
             val optimizedbackright = SwerveModuleState.optimize(moduleStates[3], Rotation2d(backrightinputs.turningAngle))
-            val backrightradspersec = optimizedbackright.speedMetersPerSecond * 2*Math.PI / Constants.DriveConstants.WHEEL_DIAMETER_METERS
+            val backrightradspersec = optimizedbackright.speedMetersPerSecond * 2 * Math.PI / Constants.DriveConstants.WHEEL_DIAMETER_METERS
             // ^ convert to radians per second
             val backrightangle = optimizedbackright.angle.radians
 
             flturnController.setpoint = frontleftangle
+            println("front left angle setpoint: $frontleftangle")
             frturnController.setpoint = frontrightangle
+            println("front right angle setpoint: $frontleftangle")
             blturnController.setpoint = backleftangle
+            println("back left angle setpoint: $frontleftangle")
             brturnController.setpoint = backrightangle
+            println("back right angle setpoint: $frontleftangle")
 
             fldriveController.setpoint = frontleftradspersec
             frdriveController.setpoint = frontrightradspersec
             bldriveController.setpoint = backleftradspersec
             brdriveController.setpoint = backrightradspersec
         }
-
 }

@@ -9,8 +9,8 @@ open class ModuleIOSim : ModuleIO {
         DCMotorSim(
             LinearSystemId.createDCMotorSystem(
                 DCMotor.getKrakenX60(1),
-                1.0, // placeholder
-                1.0, // placeholder
+                0.005, // placeholder
+                3.0, // placeholder
             ),
             DCMotor.getKrakenX60(1)
         )
@@ -19,8 +19,8 @@ open class ModuleIOSim : ModuleIO {
         DCMotorSim(
             LinearSystemId.createDCMotorSystem(
                 DCMotor.getKrakenX60(1),
-                1.0, // placeholder
-                1.0, // placeholder
+                0.005, // placeholder
+                3.0, // placeholder
             ),
             DCMotor.getKrakenX60(1)
         )
