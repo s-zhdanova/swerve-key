@@ -3,9 +3,9 @@ package frc.team449.subsystems.drive
 import com.ctre.phoenix6.hardware.TalonFX
 import edu.wpi.first.units.Units
 
-open class ModuleIOHardware : ModuleIO {
-    val turnMotor = TalonFX(1)
-    val driveMotor = TalonFX(2)
+open class ModuleIOHardware(turnID: Int, driveID: Int) : ModuleIO {
+    val turnMotor = TalonFX(turnID)
+    val driveMotor = TalonFX(driveID)
 
     override fun updateInputs(inputs: ModuleIO.ModuleIOInputs) {
         inputs.turningVoltage = turnMotor.supplyVoltage.value.`in`(Units.Volts)

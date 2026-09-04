@@ -21,5 +21,7 @@ object Constants {
     const val ROBOT_WIDTH_INCHES = 35.0 // including bumpers (front to rear)
     const val ROBOT_LENGTH_INCHES = 34.125 // including bumpers (left to right)
 
-    object DriveConstants
+    object DriveConstants {
+        const val WHEEL_DIAMETER_METERS = 0.1
+    }
 }
