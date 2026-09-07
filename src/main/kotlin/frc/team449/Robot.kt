@@ -54,7 +54,7 @@ class Robot : LoggedRobot() {
 
         robotContainer.drive.defaultCommand = robotContainer.drive.setSpeeds(
             { MathUtil.applyDeadband(-robotContainer.driveController.leftY, 0.2) },
-            { MathUtil.applyDeadband(robotContainer.driveController.leftX, 0.2)} ,
+            { MathUtil.applyDeadband(robotContainer.driveController.leftX, 0.2) },
             { MathUtil.applyDeadband(robotContainer.driveController.rightX, 0.2) }
         )
     }
