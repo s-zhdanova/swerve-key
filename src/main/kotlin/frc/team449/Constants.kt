@@ -23,5 +23,7 @@ object Constants {
 
     object DriveConstants {
         const val WHEEL_DIAMETER_METERS = 0.1
+        const val MAX_LINEAR_SPEED = 5.0 // meters per sec
+        const val MAX_ROT_SPEED = 2*Math.PI // rads per sec
     }
 }

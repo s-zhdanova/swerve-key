@@ -12,7 +12,7 @@ class ModuleSubsystem(private val io: ModuleIO) : SubsystemBase() {
 
     override fun periodic() {
         io.updateInputs(inputs)
-        io.setVoltageTurn(turnController.calculate(inputs.turningAngle))
+        io.setVoltageTurn(turnController.calculate(inputs.turningAngle.radians))
         io.setVoltageDrive(driveController.calculate(inputs.drivingVelocity))
     }
 

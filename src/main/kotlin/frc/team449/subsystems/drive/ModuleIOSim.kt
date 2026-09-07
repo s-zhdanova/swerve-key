@@ -1,5 +1,6 @@
 package frc.team449.subsystems.drive
 
+import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.system.plant.DCMotor
 import edu.wpi.first.math.system.plant.LinearSystemId
 import edu.wpi.first.wpilibj.simulation.DCMotorSim
@@ -28,7 +29,7 @@ open class ModuleIOSim : ModuleIO {
     override fun updateInputs(inputs: ModuleIO.ModuleIOInputs) {
         inputs.turningVoltage = turnMotorSim.inputVoltage
         inputs.turningVelocity = turnMotorSim.angularVelocityRadPerSec
-        inputs.turningAngle = turnMotorSim.angularPositionRad
+        inputs.turningAngle = Rotation2d(turnMotorSim.angularPositionRad)
         turnMotorSim.update(0.02)
 
         inputs.drivingVoltage = driveMotorSim.inputVoltage

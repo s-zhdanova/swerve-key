@@ -3,6 +3,7 @@ package frc.team449
 import com.ctre.phoenix6.SignalLogger
 import edu.wpi.first.hal.FRCNetComm
 import edu.wpi.first.hal.HAL
+import edu.wpi.first.math.MathUtil
 import edu.wpi.first.wpilibj.DriverStation
 import edu.wpi.first.wpilibj.PowerDistribution
 import edu.wpi.first.wpilibj.RobotController
@@ -42,7 +43,6 @@ class Robot : LoggedRobot() {
             }
         }
 
-        // TODO: correct PDH CAN ID
         LoggedPowerDistribution.getInstance(0, PowerDistribution.ModuleType.kRev)
 
         SignalLogger.enableAutoLogging(false)
@@ -53,9 +53,9 @@ class Robot : LoggedRobot() {
         RobotController.setBrownoutVoltage(6.3)
 
         robotContainer.drive.defaultCommand = robotContainer.drive.setSpeeds(
-            robotContainer.driveController.leftX,
-            robotContainer.driveController.leftY,
-            robotContainer.driveController.rightX
+            { MathUtil.applyDeadband(-robotContainer.driveController.leftY, 0.2) },
+            { MathUtil.applyDeadband(robotContainer.driveController.leftX, 0.2)} ,
+            { MathUtil.applyDeadband(robotContainer.driveController.rightX, 0.2) }
         )
     }
 

@@ -1,5 +1,8 @@
 package frc.team449.subsystems.drive
 
+import com.ctre.phoenix6.swerve.jni.SwerveJNI
+import edu.wpi.first.math.geometry.Rotation2d
+import edu.wpi.first.math.kinematics.SwerveModuleState
 import org.littletonrobotics.junction.AutoLog
 
 interface ModuleIO {
@@ -9,7 +12,7 @@ interface ModuleIO {
 
         @JvmField var turningVoltage = 0.0
 
-        @JvmField var turningAngle = 0.0
+        @JvmField var turningAngle = Rotation2d()
 
         @JvmField var drivingVelocity = 0.0
 
