@@ -1,12 +1,10 @@
 package frc.team449.subsystems.drive
 
 import edu.wpi.first.math.controller.PIDController
-import edu.wpi.first.math.geometry.Rotation2d
 import edu.wpi.first.math.geometry.Translation2d
 import edu.wpi.first.math.kinematics.ChassisSpeeds
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics
 import edu.wpi.first.math.kinematics.SwerveModuleState
-import edu.wpi.first.units.Units
 import edu.wpi.first.wpilibj2.command.Command
 import edu.wpi.first.wpilibj2.command.SubsystemBase
 import frc.team449.Constants
@@ -95,9 +93,10 @@ open class DriveSubsystem(
         run {
             println()
             val speeds = ChassisSpeeds(
-                forward.asDouble.pow(2.0)*sign(forward.asDouble)*Constants.DriveConstants.MAX_LINEAR_SPEED,
-                sideways.asDouble.pow(2.0)*sign(sideways.asDouble)*Constants.DriveConstants.MAX_LINEAR_SPEED,
-                rotation.asDouble.pow(2.0)*sign(rotation.asDouble)*Constants.DriveConstants.MAX_ROT_SPEED)
+                forward.asDouble.pow(2.0) * sign(forward.asDouble) * Constants.DriveConstants.MAX_LINEAR_SPEED,
+                sideways.asDouble.pow(2.0) * sign(sideways.asDouble) * Constants.DriveConstants.MAX_LINEAR_SPEED,
+                rotation.asDouble.pow(2.0) * sign(rotation.asDouble) * Constants.DriveConstants.MAX_ROT_SPEED
+            )
             val moduleStates = kinematics.toSwerveModuleStates(speeds)
 
             val optimizedfrontleft = SwerveModuleState.optimize(moduleStates[0], (frontleftinputs.turningAngle))
