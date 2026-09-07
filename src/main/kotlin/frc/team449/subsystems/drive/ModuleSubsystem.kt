@@ -8,12 +8,10 @@ class ModuleSubsystem(private val io: ModuleIO) : SubsystemBase() {
     private val inputs: ModuleIOInputsAutoLogged = ModuleIOInputsAutoLogged()
 
     private val turnController = PIDController(0.5, 0.0, 0.05)
-    private val driveController = PIDController(0.5, 0.0, 0.05)
 
     override fun periodic() {
         io.updateInputs(inputs)
         io.setVoltageTurn(turnController.calculate(inputs.turningAngle.radians))
-        io.setVoltageDrive(driveController.calculate(inputs.drivingVelocity))
     }
 
     fun setAngle(rads: Double): Command =
@@ -29,10 +27,5 @@ class ModuleSubsystem(private val io: ModuleIO) : SubsystemBase() {
     fun stopTurn(): Command =
         runOnce {
             io.setVoltageTurn(0.0)
-        }
-
-    fun setDriveVelocity(radsPerSecond: Double): Command =
-        runOnce {
-            driveController.setpoint = radsPerSecond
         }
 }
